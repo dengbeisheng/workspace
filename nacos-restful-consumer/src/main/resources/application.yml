@@ -1,0 +1,5 @@
+server:
+  port: 56020
+
+provider:
+  address: localhost:56010
