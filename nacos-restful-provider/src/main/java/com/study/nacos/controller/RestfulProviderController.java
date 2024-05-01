@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RestfulProviderController {
     @GetMapping(value = "/service")
     public String getService(){
+        System.out.println("provider invoke");
         return "provider invoke";
     }
 }
