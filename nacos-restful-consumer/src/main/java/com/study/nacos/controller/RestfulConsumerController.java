@@ -1,5 +1,7 @@
 package com.study.nacos.controller;
 
+import com.study.microservice.service1.api.Service1Api;
+import com.study.microservice.service2.api.Service2Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
@@ -28,7 +30,9 @@ public class RestfulConsumerController {
         return "consumer invoke | " + result;
     }
 
-    //通过服务名从nacos中发现实例，再通过负载均衡算法去获取实例
+    /**
+     * 通过服务名从nacos中发现实例，再通过负载均衡算法去获取实例
+     */
     private String serviceName = "nacos-restful-provider";
     @Autowired
     LoadBalancerClient loadBalancerClient;
@@ -41,5 +45,27 @@ public class RestfulConsumerController {
         RestTemplate restTemplate = new RestTemplate();
         String result = restTemplate.getForObject(restAddress, String.class);
         return "nacos consumer invoke | " + result;
+    }
+
+    /**
+     * application应用层通过dubbo进行远程调用service2
+     */
+    @org.apache.dubbo.config.annotation.Reference
+    Service2Api service2Api;
+    @GetMapping(value = "/dubboService2")
+    public String getDubboService2(){
+        String result = service2Api.dubboService2Api();
+        return "dubbo consumer invoke | " + result;
+    }
+
+    /**
+     * application应用层通过dubbo进行远程调用service1
+     */
+    @org.apache.dubbo.config.annotation.Reference
+    Service1Api service1Api;
+    @GetMapping(value = "/dubboService1")
+    public String getDubboService1(){
+        String result = service1Api.dubboService1Api();
+        return "dubbo consumer invoke | " + result;
     }
 }

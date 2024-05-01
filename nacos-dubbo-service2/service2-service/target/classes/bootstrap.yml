@@ -1,0 +1,28 @@
+server:
+  port: 56040
+
+spring:
+  application:
+    name: dubbo-service2
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  main:
+    allow-bean-definition-overriding: true
+
+dubbo:
+  #扫描路径下@service注解修饰的类
+  scan:
+    base-packages: com.study.microservice.service2
+  protocol:
+    #dubbo协议
+    name: dubbo
+    #协议端口
+    port: 20891
+  registry:
+    #获取注册表地址
+    address: nacos://127.0.0.1:8848
+  application:
+    #是否开启dubbo运维服务
+    qos-enable: false
