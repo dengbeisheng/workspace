@@ -8,6 +8,7 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+        namespace: a9ff6b6a-8020-4040-817f-b0ec7ed63a72 #nacos Namespace id
   main:
     allow-bean-definition-overriding: true
 

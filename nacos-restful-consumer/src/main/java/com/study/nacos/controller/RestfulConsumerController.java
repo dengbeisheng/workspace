@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -67,5 +68,19 @@ public class RestfulConsumerController {
     public String getDubboService1(){
         String result = service1Api.dubboService1Api();
         return "dubbo consumer invoke | " + result;
+    }
+
+    /**
+     * nacos配置中心获取配置
+     */
+    @Value("${common.name}")
+    private String common_name;
+    //ConfigurableApplicationContext 动态获取配置中心参数
+    @Autowired
+    ConfigurableApplicationContext applicationContext;
+    @GetMapping(value = "/nacosConfig")
+    public String getNacosConfig(){
+        String result = applicationContext.getEnvironment().getProperty("common.name");
+        return "nacos config consumer invoke | " + common_name + " || " + result;
     }
 }
